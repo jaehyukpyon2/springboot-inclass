@@ -20,4 +20,10 @@
         SET balance = #{balance}
         WHERE id = #{id}
     </update>
+
+    <insert id="insertNewAcc">
+        INSERT
+        INTO tb_account(name, balance)
+        VALUES('hello', 10000);
+    </insert>
 </mapper>

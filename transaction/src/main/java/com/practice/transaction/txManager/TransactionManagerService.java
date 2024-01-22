@@ -57,6 +57,7 @@ public class TransactionManagerService {
     }
 
     private Account receive(Long receiverId, Long amount) {
+
         if (901L == receiverId) {
             Account receiver = txMapper.getAccountByIdWrongSql(receiverId);
         }
@@ -65,5 +66,27 @@ public class TransactionManagerService {
 
         txMapper.updateAccountBalance(receiver);
         return receiver;
+    }
+
+    public void makeException() {
+        TransactionStatus status = txManager.getTransaction(txDefinition);
+        try {
+            txMapper.insertNewAcc();
+            //throwException_1();
+            throwException_2();
+            //txManager.commit(status);
+        } catch (Exception e) {
+            log.error("error!!", e);
+            //txManager.rollback(status);
+        }
+        txManager.commit(status);
+    }
+
+    public void throwException_1() {
+        throw new RuntimeException();
+    }
+
+    public void throwException_2() throws ClassNotFoundException {
+        throw new ClassNotFoundException();
     }
 }
