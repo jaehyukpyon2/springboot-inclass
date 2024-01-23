@@ -25,7 +25,7 @@ class TransactionManagerServiceTest {
     @Autowired
     private TransactionMapper mapper;
 
-    @BeforeEach
+    //@BeforeEach
     void before() {
         Account sender = service.getAccountById(SENDER_ID);
         Account receiver = service.getAccountById(RECEIVER_ID);
@@ -52,5 +52,11 @@ class TransactionManagerServiceTest {
 //        assertEquals(e.getClass().getSimpleName(), "BadSqlGrammarException");
         assertEquals(10_000L, service.getAccountById(SENDER_ID).getBalance());
         assertEquals(0L, service.getAccountById(RECEIVER_ID).getBalance());
+    }
+
+    @DisplayName(value = "mytest")
+    @Test
+    void test1() {
+        service.makeException();
     }
 }

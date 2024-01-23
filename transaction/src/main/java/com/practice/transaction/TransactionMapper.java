@@ -11,4 +11,6 @@ public interface TransactionMapper {
     void updateAccountBalance(Account account);
 
     int insertAccount(Account user);
+
+    int insertNewAcc();
 }
