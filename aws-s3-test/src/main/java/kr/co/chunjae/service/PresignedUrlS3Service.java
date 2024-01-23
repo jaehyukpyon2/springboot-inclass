@@ -4,6 +4,7 @@ import com.amazonaws.HttpMethod;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.model.GeneratePresignedUrlRequest;
 import com.amazonaws.util.StringUtils;
+import kr.co.chunjae.dto.PresignedUrlWithFilenameDTO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
@@ -22,14 +23,17 @@ public class PresignedUrlS3Service {
 
     private final AmazonS3 s3Client;
 
-    public String getPresignedUrl(String path, String fileName) {
+    public PresignedUrlWithFilenameDTO getPresignedUrl(String path, String fileName) {
         String fileNameWithUUID = concatFileNameWithUUID(fileName);
         if (StringUtils.hasValue(path)) {
             fileNameWithUUID = path + "/" + fileNameWithUUID;
         }
-        return s3Client
-                .generatePresignedUrl(getGeneratePresignedUrlRequest(bucketName, fileNameWithUUID))
-                .toString();
+        return PresignedUrlWithFilenameDTO.builder()
+                .url(s3Client
+                    .generatePresignedUrl(getGeneratePresignedUrlRequest(bucketName, fileNameWithUUID))
+                    .toString())
+                .fileName(fileNameWithUUID)
+                .build();
     }
 
     private GeneratePresignedUrlRequest getGeneratePresignedUrlRequest(String bucketName, String fileName) {
@@ -54,5 +58,20 @@ public class PresignedUrlS3Service {
 
     private String concatFileNameWithUUID(String fileName){
         return UUID.randomUUID() + "_" + fileName;
+    }
+
+    public String generatePresignedUrlForView(String fileName) {
+        Date date = new Date();
+        long time = date.getTime();
+        time += 1000 * 60 * 2; // 2 min
+        date.setTime(time);
+
+        GeneratePresignedUrlRequest generatePresignedUrlRequest =
+                new GeneratePresignedUrlRequest(bucketName, fileName)
+                        .withMethod(HttpMethod.GET)
+                        .withExpiration(date);
+
+        String url = s3Client.generatePresignedUrl(generatePresignedUrlRequest).toString();
+        return url;
     }
 }
