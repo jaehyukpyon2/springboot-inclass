@@ -10,11 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import java.util.concurrent.TimeoutException;
 
 @Slf4j
-@ControllerAdvice
+//@ControllerAdvice
 public class ErrorControllerAdvice {
 
     @ResponseStatus(HttpStatus.FORBIDDEN)
-    @ExceptionHandler(TimeoutException.class)
+  //  @ExceptionHandler(TimeoutException.class)
     public String handle(TimeoutException exception, HttpServletRequest request) {
         return "error/error";
     }

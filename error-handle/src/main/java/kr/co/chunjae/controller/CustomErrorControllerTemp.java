@@ -4,10 +4,10 @@ import org.springframework.boot.web.servlet.error.ErrorController;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
-@Controller
+//@Controller
 public class CustomErrorControllerTemp implements ErrorController {
 
-    @GetMapping(value = "/error")
+    //@GetMapping(value = "/error")
     public String handleError() throws Exception {
         return "error/error";
     }
