@@ -1,5 +1,9 @@
 server:
   port: 8094
+  servlet:
+    jsp:
+      init-parameters:
+        development: true
 
 spring:
   profiles:

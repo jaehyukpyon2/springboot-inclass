@@ -22,7 +22,7 @@ public class PresignedUrlS3Controller {
     @PostMapping(value = "/generate-url")
     @ResponseBody
     public ResponseEntity<PresignedUrlWithFilenameDTO> createPresignedUrl(@RequestParam String fileName) {
-        final String path = "presigned-test";
+        final String path = "contents-presigned";
         return ResponseEntity
                 .ok()
                 .body(presignedUrlS3Service.getPresignedUrl(path, fileName));

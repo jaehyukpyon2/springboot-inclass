@@ -22,7 +22,7 @@ public class BasicS3Controller {
 
     @PostMapping(value = "/upload")
     public ResponseEntity<String> uploadFile(@RequestParam(value = "file") MultipartFile file) {
-        final String path = "path-test/";
+        final String path = "contents-basic/";
         return new ResponseEntity<>(basicS3Service.uploadFile(path, file), HttpStatus.CREATED);
     }
 
